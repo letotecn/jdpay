@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
   spec.test_files = Dir["test/**/*"]
 
-  spec.add_runtime_dependency "rest-client", '>= 2.0.0'
+  spec.add_runtime_dependency "rest-client", '>= 1.8.0'
   spec.add_runtime_dependency "activesupport", '>= 3.2'
   spec.add_runtime_dependency "builder", '~> 3.2.2'
 
