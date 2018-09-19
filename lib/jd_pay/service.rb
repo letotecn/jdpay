@@ -206,7 +206,7 @@ module JdPay
         # For h5pay: https://h5pay.jd.com/jdpay/payCashier?tradeNum=xxx&orderId=xxx&key=xxx
         # For webpay: payCashier?tradeNum=xxx&ourTradeNum=xxx&key=xxx
         url = resp['location'].include?(base_url) ? resp['location'] : "#{base_url}?#{resp['location'].split('?')[1]}"
-        { url: url, result: resp }
+        { url: url, result: resp.body }
       end
     end
   end
