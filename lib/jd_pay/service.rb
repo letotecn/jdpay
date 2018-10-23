@@ -14,6 +14,7 @@ module JdPay
     CANCEL_USER_URL = 'https://paygate.jd.com/service/cancelUserRelation'
     WEB_PAY_BASE_URL = 'https://wepay.jd.com/jdpay/payCashier'
     H5_PAY_BASE_URL = 'https://h5pay.jd.com/jdpay/payCashier'
+    QUERY_INSTALLMENT_URL = 'https://paygate.jd.com/service/queryBaiTiaoFQ'
 
     class << self
       # the difference between pc and h5 is just request url
@@ -42,6 +43,19 @@ module JdPay
         end
         params[:sign] = sign
         options[:need_redirect_url] ? get_redirect_url(url, params) : JdPay::Util.build_pay_form(url, params)
+      end
+
+      QUERY_INSTALLMENT_REQUIRED_FIELDS = [:tradeNum, :amount]
+      def query_installment_info(params, options = {})
+        params = {
+            version: "V2.0",
+            merchant: options[:mch_id] || JdPay.mch_id
+        }.merge(params)
+
+        check_required_options(params, QUERY_INSTALLMENT_REQUIRED_FIELDS)
+        params[:sign] = JdPay::Sign.rsa_encrypt(JdPay::Util.to_xml(params), options)
+
+        JdPay::Result.new(Hash.from_xml(invoke_remote(QUERY_INSTALLMENT_URL, make_payload(params), options)), options)
       end
 
       UNIORDER_REQUIRED_FIELDS = [:tradeNum, :tradeName, :amount, :orderType, :notifyUrl, :userId]

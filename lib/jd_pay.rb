@@ -5,6 +5,7 @@ require "jd_pay/service"
 require "jd_pay/sign"
 require "jd_pay/util"
 require "jd_pay/qr_service"
+require "jd_pay/error"
 
 module JdPay
   @extra_rest_client_options = {}
